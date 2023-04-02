@@ -26,8 +26,7 @@ double     have_int_of_equation(std::string equation, std::vector<int>::iterator
                     if (equation.substr(j - 1, tmp - j + 1).find('.') != std::string::npos)
                         reduct_value = reduct_value + std::stod(equation.substr(j - 1, tmp - j + 1));
                     else{
-                        reduct_value = reduct_value + std::stoi(equation.substr(j - 1, tmp - j + 1));
-                        reduct_value = std::round(reduct_value * 1) / 1;
+                        reduct_value = reduct_value + std::stod(equation.substr(j - 1, tmp - j + 1));
                     }
                 }
             }
@@ -37,82 +36,7 @@ double     have_int_of_equation(std::string equation, std::vector<int>::iterator
 
 void analyze_polynomial_form(std::string expression)
 {
-    int i = 0;
-    int good_degree = 0;
-    int bad_degree = 0;
-    int tmp_i = 0;
-    int count_aqual = 0;
-
-    while (expression[i] != '\0')
-    {
-        if (expression[i] == '=')
-            count_aqual++;
-        if (expression[i] != ' ' && expression[i] != 'X' && expression[i] != '^' && expression[i] != '+' && expression[i] != '-' && expression[i] != '=' && (expression[i] < '0' || expression[i] > '9'))
-        {
-            exit_function("Error: invalid polynomial form1");
-        }
-        if (expression[i] == 'X')
-        {
-            if (expression[i + 1] && expression[i + 1] == '^' && expression[i + 2] && (expression[i + 2] >= '0' && expression[i + 2] <= '9'))
-            {
-                if (expression[i + 2] && expression[i + 2] == '1' && ((expression[i + 3] && (expression[i + 3] < '0' || expression[i + 3] > '9') && expression[i + 3] != 'X' && expression[i + 3] != '^') || !expression[i + 3]))
-                {
-                    if (good_degree < 1)
-                        good_degree = 1;
-                }
-                else if (expression[i + 2] && expression[i + 2] == '2' && ((expression[i + 3] && (expression[i + 3] < '0' || expression[i + 3] > '9') && expression[i + 3] != 'X' && expression[i + 3] != '^') || !expression[i + 3]))
-                {
-                    if (good_degree < 2)
-                        good_degree = 2;
-                }
-                else if (expression[i + 2] && (expression[i + 2] >= '3' && expression[i + 2] <= '9') && expression[i + 3] && (expression[i + 3] < '0' || expression[i + 3] > '9') || !expression[i + 3])
-                {
-                    if (good_degree < atoi(&expression[i + 2]))
-                        good_degree = atoi(&expression[i + 2]);
-                }
-                else if (expression[i + 2] && (expression[i + 2] >= '0' && expression[i + 2] <= '9') && expression[i + 3] && (expression[i + 3] >= '0' && expression[i + 3] <= '9'))
-                {
-                    tmp_i = i + 2;
-                    good_degree = 0;
-                    while (expression[tmp_i] >= '0' && expression[tmp_i] <= '9')
-                    {
-                        good_degree = good_degree * 10;
-                        good_degree = good_degree + (expression[tmp_i] - '0');
-                        tmp_i++;
-                    }
-
-                    if (expression[tmp_i] && (expression[tmp_i] == 'X' || expression[tmp_i] == '^'))
-                        exit_function("Error: invalid polynomial form4");
-                    if (good_degree > bad_degree)
-                        bad_degree = good_degree;
-                }
-                else
-                    exit_function("Error: invalid polynomial form2");
-            }
-            else
-                exit_function("Error: invalid polynomial form3");
-        }
-        i++;
-    }
-    i--;
-    while (expression[i] == ' ')
-        i--;
-    if (expression[i] == '+' || expression[i] == '-' || expression[i] == 'X' || expression[i] == '^' || expression[i] == '=')
-        exit_function("Error: invalid polynomial form6");
-
-    if (count_aqual != 1)
-        exit_function("Error: invalid polynomial form5");
-
-    if (good_degree <= 2)
-        printf("Polynomial degree: %d\n", good_degree);
-    else
-    {
-        if (bad_degree > 0)
-            printf("Polynomial degree: %d\n", bad_degree);
-        else
-            printf("Polynomial degree: %d\n", good_degree);
-        printf("The polynomial degree is stricly greater than 2, I can't solve.\n");
-    }
+    
     return;
 }
 
@@ -191,9 +115,9 @@ std::string reduction_form(std::string equation)
 
 void    resolution_of_the_degree_two(std::string equation)
 {   
-    double a = 0;
-    double b = 0;
-    double c = 0;
+    double a = 0.0;
+    double b = 0.0;
+    double c = 0.0;
     if (equation[0] >= '0' && equation[0] <= '9')
         equation.insert(0, "+");
     std::vector<int> puissance = fill_puissance(equation);
@@ -207,31 +131,38 @@ void    resolution_of_the_degree_two(std::string equation)
         else
             a = have_int_of_equation(equation, it_puissance);
     }
-    if (my_sqrt((b * b) - (4 * a * c)) == 0)
+    
+    double discriminant = b * b - 4 * a * c;
+    if (my_sqrt(discriminant) == 0)
     {
         std::cout << "The solution is:" << std::endl;
-        double x = (-b + my_sqrt((b * b) - (4 * a * c))) / (2 * a);
+        double x = (-b + my_sqrt(discriminant)) / (2 * a);
         if (a == 0 && b == 0 && c == 0)
             std::cout << "x = " << "i" << std::endl;
         std::cout << "x = " << std::round(x * 1000000) / 1000000 << std::endl;
         return ;
     }
-    else if (my_sqrt((b * b) - (4 * a * c)) > 0)
+    else if (my_sqrt(discriminant) > 0)
     {
         std::cout << "Solutions are:" << std::endl;
-        double x1 = (-b + my_sqrt((b * b) - (4 * a * c))) / (2 * a);
-        double x2 = (-b - my_sqrt((b * b) - (4 * a * c))) / (2 * a);
+        double x1 = (-b + my_sqrt(discriminant)) / (2 * a);
+        double x2 = (-b - my_sqrt(discriminant)) / (2 * a);
         std::cout << "x1 = " << std::round(x1 * 1000000) / 1000000 << std::endl;
         std::cout << "x2 = " << std::round(x2 * 1000000) / 1000000 << std::endl;
         return ;
     }
     else
     {
-        std::cout << "There is no solution for this equation." << std::endl;
+        double real_part = -b / (2 * a);
+        double imaginary_part = my_sqrt(-discriminant) / (2 * a);
+        std::cout << "Solutions are:" << std::endl;
+        std::cout << "x1 = " << real_part << " + i*" << imaginary_part << "\nx2 = " << real_part << " - i*" << imaginary_part << std::endl;
         return ;
     }  
     return ;
 }
+
+
 
 void    resolution_of_the_degree_one(std::string equation)
 {   
@@ -325,3 +256,5 @@ int main(int argc, char **argv)
     resolution_of_the_equation(argv[1]);
     return 0;
 }
+
+ 
