@@ -34,12 +34,6 @@ double     have_int_of_equation(std::string equation, std::vector<int>::iterator
     return reduct_value;
 }
 
-void analyze_polynomial_form(std::string expression)
-{
-    
-    return;
-}
-
 std::vector<int> fill_puissance(std::string equation)
 {
     std::vector<int> puissance;
@@ -200,6 +194,7 @@ void    resolution_of_the_equation(std::string equation)
 
     for (int i = 0; i < puissance.size(); i++, it_puissance++)
         result.push_back(have_int_of_equation(equation, it_puissance));
+
     for (int i = 0; i < result.size(); i++){
         if (result[i] == 0)
         {
@@ -208,8 +203,10 @@ void    resolution_of_the_equation(std::string equation)
             i--;
         }
     }
+
     equation.clear();
     equation = "";
+
     for (int i = 0; i < result.size(); i++, it_puissance++){
         str = std::to_string(result[i]);
         str.erase(str.find_last_not_of('0') + 1, std::string::npos);
@@ -223,14 +220,17 @@ void    resolution_of_the_equation(std::string equation)
         equation.append(std::to_string(puissance[i]));
         str.clear();
     }
+
     equation.append("=0");
     std::cout << "Reduced form:       ";
+
     if (equation[0] == '='){
         std::cout << "0\n";
         std::cout << "Polynomial degree:   0" << std::endl;
         std::cout << "There is no solution for this equation." << std::endl;
         return ;
     }
+
     print_equation(equation);
 
     std::cout << "Polynomial degree:  " << *puissance.begin() << std::endl;
@@ -252,7 +252,7 @@ int main(int argc, char **argv)
         printf("Bad number of arguments\n");
         return 1;
     }
-    // analyze_polynomial_form(argv[1]);
+    analyze_polynomial_form(argv[1]);
     resolution_of_the_equation(argv[1]);
     return 0;
 }
