@@ -54,3 +54,22 @@ void        print_equation(std::string equation)
     std::cout << std::endl;
     return ;
 }
+
+std::vector<int> fill_puissance(std::string equation)
+{
+    std::vector<int> puissance;
+    std::vector<int>::iterator it_puissance = puissance.begin();
+    int j = 0;
+    for(size_t i = 0; i < equation.length(); i++)
+    {
+        if (equation[i] == '^'){
+            j = i + 1;
+            while ((equation[j] >= '0' && equation[j] <= '9'))
+                j++;
+            it_puissance = std::find(puissance.begin(), puissance.end(), atoi(equation.substr(i + 1, j - i - 1).c_str()));
+            if (it_puissance == puissance.end())
+                puissance.push_back(atoi(equation.substr(i + 1, j - i - 1).c_str()));
+        }
+    }
+    return puissance;
+}

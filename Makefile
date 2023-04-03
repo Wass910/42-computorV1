@@ -1,4 +1,4 @@
-SRC=    src/computor.cpp src/parsing.cpp src/utils.cpp \
+SRC=    src/computor.cpp src/parsing.cpp src/utils.cpp src/resolution.cpp src/reduction.cpp \
 
 OBJS			= $(SRC:.cpp=.o)
 
