@@ -1,4 +1,4 @@
-#include "computor-V1.hpp"
+#include "../inc/computor-V1.hpp"
 
 void exit_function(const char *message)
 {
@@ -30,7 +30,7 @@ double my_sqrt(double x) {
 
 void        print_equation(std::string equation)
 {
-    for (int i = 0; i < equation.length(); i++)
+    for (size_t i = 0; i < equation.length(); i++)
     {
         if (equation[i] == '+'){
             if (i != 0)

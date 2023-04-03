@@ -1,4 +1,4 @@
-#include "computor-V1.hpp"
+#include "../inc/computor-V1.hpp"
 
 double     have_int_of_equation(std::string equation, std::vector<int>::iterator it_puissance)
 {
@@ -7,7 +7,7 @@ double     have_int_of_equation(std::string equation, std::vector<int>::iterator
     int tmp = 0;
     int coeff = 0;
 
-    for(int i = 0; i < equation.length(); i++)
+    for(size_t i = 0; i < equation.length(); i++)
         {
             if (equation[i] == '^'){
                 j = i + 1;
@@ -39,7 +39,7 @@ std::vector<int> fill_puissance(std::string equation)
     std::vector<int> puissance;
     std::vector<int>::iterator it_puissance = puissance.begin();
     int j = 0;
-    for(int i = 0; i < equation.length(); i++)
+    for(size_t i = 0; i < equation.length(); i++)
     {
         if (equation[i] == '^'){
             j = i + 1;
@@ -56,13 +56,10 @@ std::vector<int> fill_puissance(std::string equation)
 std::string formating_equation(std::string equation)
 {
     std::vector<int> puissance;
-    
-    int j = 0;
-    int tmp = 0;
-    int coeff;
     double reduct_value = 0;
     std::string new_equation;
     std::string str;
+
     std::cout << "Intermediate steps: ";
     print_equation(equation);
     if (equation[0] >= '0' && equation[0] <= '9')
@@ -93,7 +90,6 @@ std::string reduction_form(std::string equation)
     equation.erase(std::remove(equation.begin(), equation.end(), ' '), equation.end());
     std::cout << "Intermediate steps: ";
     print_equation(equation);
-    int j = 0;
     int equal_position = equation.find("=");
     std::string next_to_equal = equation.substr(equal_position + 1);
     if (next_to_equal[0] >= '0' && next_to_equal[0] <= '9')
@@ -117,7 +113,7 @@ void    resolution_of_the_degree_two(std::string equation)
     std::vector<int> puissance = fill_puissance(equation);
     std::vector<int>::iterator it_puissance = puissance.begin();    
 
-    for (int i = 0; i < puissance.size(); i++, it_puissance++){
+    for (size_t i = 0; i < puissance.size(); i++, it_puissance++){
         if (*it_puissance == 0)
             c = have_int_of_equation(equation, it_puissance);
         else if (*it_puissance == 1)
@@ -167,7 +163,7 @@ void    resolution_of_the_degree_one(std::string equation)
     std::vector<int> puissance = fill_puissance(equation);
     std::vector<int>::iterator it_puissance = puissance.begin();    
 
-    for (int i = 0; i < puissance.size(); i++, it_puissance++){
+    for (size_t i = 0; i < puissance.size(); i++, it_puissance++){
         if (i == 0)
             a = have_int_of_equation(equation, it_puissance);
         else if (i == 1)
@@ -192,10 +188,10 @@ void    resolution_of_the_equation(std::string equation)
     puissance = fill_puissance(equation);
     std::vector<int>::iterator it_puissance = puissance.begin();    
 
-    for (int i = 0; i < puissance.size(); i++, it_puissance++)
+    for (size_t i = 0; i < puissance.size(); i++, it_puissance++)
         result.push_back(have_int_of_equation(equation, it_puissance));
 
-    for (int i = 0; i < result.size(); i++){
+    for (size_t i = 0; i < result.size(); i++){
         if (result[i] == 0)
         {
             puissance.erase(puissance.begin()+i, puissance.begin()+i+1);
@@ -207,7 +203,7 @@ void    resolution_of_the_equation(std::string equation)
     equation.clear();
     equation = "";
 
-    for (int i = 0; i < result.size(); i++, it_puissance++){
+    for (size_t i = 0; i < result.size(); i++, it_puissance++){
         str = std::to_string(result[i]);
         str.erase(str.find_last_not_of('0') + 1, std::string::npos);
         if (str.back() == '.') {
